@@ -1,0 +1,109 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─── Test Job ─────────────────────────────────────────────────────────────
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Create .env for testing
+        run: |
+          echo "SARVAM_API_KEY=test_key" >> .env
+          echo "TAVILY_API_KEY=test_key" >> .env
+          echo "APP_ENV=testing" >> .env
+
+      - name: Run tests
+        run: |
+          pytest tests/ -v \
+            --cov=src \
+            --cov=api \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            -x
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+        continue-on-error: true
+
+  # ─── Lint Job ─────────────────────────────────────────────────────────────
+  lint:
+    name: Lint & Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install linting tools
+        run: pip install ruff black isort
+
+      - name: Run ruff
+        run: ruff check src/ api/ frontend/
+
+      - name: Check black formatting
+        run: black --check src/ api/ frontend/
+
+  # ─── Docker Build Job ─────────────────────────────────────────────────────
+  docker-build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build API image
+        run: |
+          docker build \
+            -f docker/Dockerfile \
+            -t research-api:${{ github.sha }} \
+            .
+
+      - name: Build Frontend image
+        run: |
+          docker build \
+            -f docker/Dockerfile.frontend \
+            -t research-frontend:${{ github.sha }} \
+            .
+
+      - name: Test containers start
+        run: |
+          docker run --rm -d \
+            --name test-api \
+            -e SARVAM_API_KEY=test \
+            -e TAVILY_API_KEY=test \
+            -p 8000:8000 \
+            research-api:${{ github.sha }} &
+          sleep 10
+          curl -f http://localhost:8000/health || exit 1
+          docker stop test-api
