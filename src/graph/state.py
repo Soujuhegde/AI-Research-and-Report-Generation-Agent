@@ -77,7 +77,8 @@ class AgentState(BaseModel):
     # Control flow
     current_agent: str = "planner"
     iteration_count: int = 0
-    max_iterations: int = 10
+    current_section_index: int = 0
+    max_iterations: int = 30
     revision_count: int = 0
     max_revisions: int = 2
     is_complete: bool = False

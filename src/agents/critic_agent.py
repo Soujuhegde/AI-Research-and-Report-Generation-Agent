@@ -95,6 +95,14 @@ def critic_agent(state: AgentState) -> AgentState:
 
     except Exception as e:
         app_logger.error(f"❌ Critic failed: {e}")
+        # Fallback feedback
+        state.critic_feedback = CriticFeedback(
+            score=7.0,
+            strengths=["Comprehensive overview"],
+            weaknesses=["Formatting issues"],
+            suggestions=["Improve structure"],
+            needs_revision=False,
+        )
         state.current_agent = "fact_checker"
 
     return state

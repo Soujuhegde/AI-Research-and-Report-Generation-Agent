@@ -1,20 +1,16 @@
-[server]
-port = 8501
-address = "0.0.0.0"
-headless = true
-enableCORS = false
-enableXsrfProtection = true
-maxUploadSize = 50
-
 [theme]
-primaryColor = "#4CAF50"
-backgroundColor = "#0e1117"
-secondaryBackgroundColor = "#1e2030"
-textColor = "#fafafa"
+base="light"
+# Primary accent color (Rich Indigo)
+primaryColor = "#4F46E5"
+
+# Background color for the main content area (Clean Off-White)
+backgroundColor = "#FAFAFA"
+
+# Background color used for the sidebar and most interactive widgets (Crisp White)
+secondaryBackgroundColor = "#FFFFFF"
+
+# Text color for almost all text (Deep Slate)
+textColor = "#0F172A"
+
+# Font family
 font = "sans serif"
-
-[browser]
-gatherUsageStats = false
-
-[logger]
-level = "info"

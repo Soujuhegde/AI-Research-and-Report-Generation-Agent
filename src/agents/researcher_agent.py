@@ -9,16 +9,15 @@ from src.llm.sarvam_client import get_llm
 from src.utils.logger import app_logger
 
 
-RESEARCHER_SYSTEM_PROMPT = """You are an expert Research Analyst. 
-You have been given raw search results from the web. Your job is to:
-1. Synthesize the information coherently
-2. Identify key facts, statistics, and insights
-3. Note the sources for each claim
-4. Highlight any conflicting information
-5. Organize findings by subtopic
+RESEARCHER_SYSTEM_PROMPT = """You are an expert Academic Research Analyst. 
+You have been given raw search results from the web. Your job is to conduct DEEP, EXHAUSTIVE RESEARCH and:
+1. Synthesize the information coherently, focusing on extreme academic rigor.
+2. Identify and exhaustively list ALL key facts, statistical data points, and historical background information.
+3. Extract and detail the research design, procedures, and methodologies used in the provided literature.
+4. Note the sources for each claim clearly.
+5. Highlight any conflicting information and structure findings by the provided subtopics.
 
-Be thorough, factual, and always cite sources. 
-Format your response in clear sections."""
+Be extremely thorough, highly detailed, and extensive. Do not summarize briefly; provide an immense amount of detail suitable for a 20-page academic paper."""
 
 
 def researcher_agent(state: AgentState) -> AgentState:
@@ -52,7 +51,7 @@ def researcher_agent(state: AgentState) -> AgentState:
     state.sources = [r.url for r in search_results if r.url]
 
     # Use LLM to synthesize the research
-    llm = get_llm(temperature=0.4)
+    llm = get_llm(temperature=0.4, max_tokens=4000)
 
     messages = [
         SystemMessage(content=RESEARCHER_SYSTEM_PROMPT),

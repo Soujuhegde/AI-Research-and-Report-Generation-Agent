@@ -1,6 +1,6 @@
 """
 LangGraph DAG Workflow - Orchestrates all agents.
-Implements: Planner → Researcher → Writer → Critic → (loop) → Fact-Checker
+Implements: Planner → Researcher → Writer(Loop) → Assembler → Critic → (loop) → Fact-Checker
 """
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
@@ -10,10 +10,20 @@ from src.graph.state import AgentState
 from src.agents.planner_agent import planner_agent
 from src.agents.researcher_agent import researcher_agent
 from src.agents.writer_agent import writer_agent
+from src.agents.assembler_agent import assembler_agent
 from src.agents.critic_agent import critic_agent
 from src.agents.fact_checker_agent import fact_checker_agent
 from src.utils.logger import app_logger
 
+def route_after_writer(state: AgentState) -> str:
+    """Conditionally loop back to writer or move to assembler."""
+    # Prevent infinite loop if writer hits an error or marks complete
+    if getattr(state, "error", None):
+        return "end"
+        
+    if getattr(state, "current_section_index", 0) < len(getattr(state.research_plan, "estimated_sections", [])):
+        return "writer"
+    return "assembler"
 
 def route_after_critic(state: AgentState) -> Literal["writer", "fact_checker"]:
     """
@@ -25,6 +35,9 @@ def route_after_critic(state: AgentState) -> Literal["writer", "fact_checker"]:
             and state.revision_count <= state.max_revisions
             and state.iteration_count < state.max_iterations):
         app_logger.info("🔄 Routing back to writer for revision")
+        # Reset state for full rewrite if rejected
+        state.current_section_index = 0
+        state.report_sections = []
         return "writer"
     else:
         app_logger.info("➡️ Routing to fact_checker")
@@ -48,7 +61,7 @@ def build_graph() -> StateGraph:
     Build the complete multi-agent DAG.
     
     Graph structure:
-    START → planner → researcher → writer → critic → [loop|fact_checker] → END
+    START → planner → researcher → writer(loop) → assembler → critic → [loop|fact_checker] → END
     """
     # Use dict for LangGraph compatibility
     workflow = StateGraph(dict)
@@ -57,16 +70,29 @@ def build_graph() -> StateGraph:
     workflow.add_node("planner", lambda state: planner_agent(AgentState(**state)).dict())
     workflow.add_node("researcher", lambda state: researcher_agent(AgentState(**state)).dict())
     workflow.add_node("writer", lambda state: writer_agent(AgentState(**state)).dict())
+    workflow.add_node("assembler", lambda state: assembler_agent(AgentState(**state)).dict())
     workflow.add_node("critic", lambda state: critic_agent(AgentState(**state)).dict())
     workflow.add_node("fact_checker", lambda state: fact_checker_agent(AgentState(**state)).dict())
 
     # Set entry point
     workflow.set_entry_point("planner")
 
-    # Add edges (linear flow)
+    # Add edges
     workflow.add_edge("planner", "researcher")
     workflow.add_edge("researcher", "writer")
-    workflow.add_edge("writer", "critic")
+    
+    # Writer loop
+    workflow.add_conditional_edges(
+        "writer",
+        lambda state: route_after_writer(AgentState(**state)),
+        {
+            "writer": "writer",
+            "assembler": "assembler",
+            "end": END
+        }
+    )
+    
+    workflow.add_edge("assembler", "critic")
 
     # Conditional edge from critic (self-critique loop)
     workflow.add_conditional_edges(

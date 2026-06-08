@@ -80,6 +80,8 @@ class SarvamChatModel(BaseChatModel):
             )
 
             content = response.choices[0].message.content
+            if content is None:
+                content = ""
             ai_message = AIMessage(content=content)
             generation = ChatGeneration(message=ai_message)
             return ChatResult(generations=[generation])

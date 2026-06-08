@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     sarvam_api_base_url: str = Field(
         default="https://api.sarvam.ai/v1", env="SARVAM_API_BASE_URL"
     )
-    sarvam_model: str = Field(default="sarvam-2b", env="SARVAM_MODEL")
+    sarvam_model: str = Field(default="sarvam-30b", env="SARVAM_MODEL")
 
     # Tavily
     tavily_api_key: str = Field(..., env="TAVILY_API_KEY")
