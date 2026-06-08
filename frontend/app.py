@@ -38,7 +38,7 @@ def main():
     st.markdown("""
     <div class="hero-banner">
         <h1>Research Intelligence</h1>
-        <p>A minimal, clean AI assistant to research any topic and write comprehensive reports.</p>
+        <p>A premium AI platform for deep academic research, synthesis, and automated report generation.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -48,13 +48,13 @@ def main():
         with st.form("research_form", clear_on_submit=False):
             topic = st.text_input(
                 "Topic",
-                placeholder="e.g. How will Generative AI impact healthcare by 2030?",
+                placeholder="Enter your research topic... (e.g., 'Impact of Generative AI on Global Markets')",
                 label_visibility="collapsed"
             )
             
             instructions = st.text_area(
                 "Instructions (Optional)",
-                placeholder="e.g., 'Focus on emerging markets', 'Target: non-technical audience'",
+                placeholder="Specific instructions or focus areas (e.g., 'Focus heavily on emerging markets', 'Ensure academic tone')...",
                 height=80,
                 label_visibility="collapsed"
             )
@@ -71,56 +71,32 @@ def main():
 
 def _execute_research(topic: str, instructions: str):
     """Run the research pipeline with a progress UI."""
+    st.divider()
+
+    # Create UI placeholders immediately for instant feedback
+    progress_bar = st.progress(5)
+    status_placeholder = st.empty()
+    
+    # Instant funny feedback before the heavy imports block the thread
+    status_placeholder.info("Waking up the AI hamsters... 🐹 Please hold!", icon="☕")
+
+    # Now do the heavy backend imports
     from src.graph.workflow import run_research_pipeline
 
-    st.divider()
-    st.markdown(f"<h2>Researching: {topic}</h2>", unsafe_allow_html=True)
-
-    progress_bar = st.progress(0)
-    status_placeholder = st.empty()
-    status_placeholder.info("Initializing...", icon="🔄")
-
-    # Metrics placeholders
-    m1, m2, m3, m4 = st.columns(4)
-    sources_ph = m1.empty()
-    score_ph = m2.empty()
-    cred_ph = m3.empty()
-    iter_ph = m4.empty()
-
-    def add_log(msg: str):
-        pass # UI logging removed as per user request
-
-    add_log(f"Starting pipeline for: '{topic}'")
-
     try:
-        progress_bar.progress(10)
-        status_placeholder.info("Planner working...", icon="🗺️")
-        add_log("Planner agent activated...")
+        progress_bar.progress(15)
+        status_placeholder.info("Brewing coffee for the research agents... ☕ Deploying Planner!", icon="🚀")
 
-        # We don't have config sliders anymore, use sensible defaults
         final_state = run_research_pipeline(
             topic=topic,
             user_instructions=instructions or None,
             max_iterations=30,
         )
 
-        progress_bar.progress(100)
-        status_placeholder.success(f"Research complete for: {topic}", icon="✅")
+        # Clear loading UI for a clean transition
+        progress_bar.empty()
+        status_placeholder.empty()
 
-        score_str = f"{final_state.critic_feedback.score:.1f}/10" if final_state.critic_feedback else "N/A"
-        cred_str = f"{final_state.fact_check_result.overall_credibility:.1%}" if final_state.fact_check_result else "N/A"
-
-        add_log("Pipeline complete.")
-        add_log(f"Sources: {len(final_state.sources)}")
-        add_log(f"Quality score: {score_str}")
-        add_log(f"Credibility: {cred_str}")
-
-        sources_ph.metric("Sources", len(final_state.sources))
-        score_ph.metric("Quality", score_str)
-        cred_ph.metric("Credibility", cred_str)
-        iter_ph.metric("Steps Taken", final_state.iteration_count)
-
-        st.markdown("<br>", unsafe_allow_html=True)
         display_full_report(
             report_markdown=final_state.final_report,
             topic=topic,
@@ -137,7 +113,6 @@ def _execute_research(topic: str, instructions: str):
     except Exception as e:
         progress_bar.progress(0)
         status_placeholder.error(f"Research failed: {str(e)}", icon="❌")
-        add_log(f"ERROR: {str(e)}")
         st.exception(e)
 
 

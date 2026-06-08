@@ -48,12 +48,12 @@ def critic_agent(state: AgentState) -> AgentState:
         state.current_agent = "fact_checker"
         return state
 
-    llm = get_llm(temperature=0.2)  # Low temp for consistent evaluation
+    llm = get_llm(temperature=0.2, max_tokens=800)  # Low temp, low tokens for evaluation
 
     messages = [
         SystemMessage(content=CRITIC_SYSTEM_PROMPT),
         HumanMessage(
-            content=f"Research Report to Review:\n\n{state.draft_report}\n\n"
+            content=f"Research Report to Review (First 4000 chars):\n\n{state.draft_report[:4000]}\n\n"
                     f"Original Topic: {state.topic}\n"
                     f"This is revision #{state.revision_count}"
         )
@@ -87,6 +87,8 @@ def critic_agent(state: AgentState) -> AgentState:
         if (state.critic_feedback.needs_revision 
                 and state.revision_count < state.max_revisions):
             state.revision_count += 1
+            state.current_section_index = 0
+            state.report_sections = []
             state.current_agent = "writer"  # Loop back
             app_logger.info(f"🔄 Sending back for revision #{state.revision_count}")
         else:

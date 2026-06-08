@@ -40,15 +40,15 @@ def fact_checker_agent(state: AgentState) -> AgentState:
         state.is_complete = True
         return state
 
-    llm = get_llm(temperature=0.1)  # Very low temp for fact checking
+    llm = get_llm(temperature=0.1, max_tokens=800)  # Very low temp, low tokens for fact checking
 
     messages = [
         SystemMessage(content=FACT_CHECKER_SYSTEM_PROMPT),
         HumanMessage(
-            content=f"Research Report:\n{state.draft_report}\n\n"
+            content=f"Research Report (First 4000 chars):\n{state.draft_report[:4000]}\n\n"
                     f"Available Sources:\n"
                     f"{chr(10).join([f'[{i+1}] {url}' for i, url in enumerate(state.sources)])}\n\n"
-                    f"Raw Research Data:\n{state.raw_research[:3000]}..."
+                    f"Raw Research Data:\n{state.raw_research[:1000]}..."
         )
     ]
 
