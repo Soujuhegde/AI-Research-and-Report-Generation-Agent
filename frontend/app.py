@@ -34,36 +34,33 @@ def main():
         unsafe_allow_html=True,
     )
 
-    # Hero Section
+    # Dashboard Header
     st.markdown("""
     <div class="hero-banner">
-        <h1>Research Intelligence</h1>
-        <p>A premium AI platform for deep academic research, synthesis, and automated report generation.</p>
+        <h1 class="hero-title">Editorial Research Layout Dashboard</h1>
     </div>
     """, unsafe_allow_html=True)
 
-    # Main Input Area (Centered Search Engine Style)
-    col1, col2, col3 = st.columns([1, 6, 1])
-    with col2:
+    # Main Input Area (Centered Search Engine Style, but integrated cleanly)
+    with st.container():
+        st.markdown("<div style='background-color:#FFFFFF; padding:2rem; border-radius:16px; box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.4), -6px -6px 12px rgba(255, 255, 255, 0.8); margin-bottom: 2rem;'>", unsafe_allow_html=True)
         with st.form("research_form", clear_on_submit=False):
-            topic = st.text_input(
-                "Topic",
-                placeholder="Enter your research topic... (e.g., 'Impact of Generative AI on Global Markets')",
-                label_visibility="collapsed"
-            )
-            
-            instructions = st.text_area(
-                "Instructions (Optional)",
-                placeholder="Specific instructions or focus areas (e.g., 'Focus heavily on emerging markets', 'Ensure academic tone')...",
-                height=80,
-                label_visibility="collapsed"
-            )
-            
-            st.markdown("<br>", unsafe_allow_html=True)
-            # Center the submit button
-            c1, c2, c3 = st.columns([1, 1, 1])
-            with c2:
-                submitted = st.form_submit_button("Start Research", type="primary", use_container_width=True)
+            col_input, col_btn = st.columns([4, 1])
+            with col_input:
+                topic = st.text_input(
+                    "Topic",
+                    placeholder="Enter your research topic... (e.g., 'Impact of Generative AI on Global Markets')",
+                    label_visibility="collapsed"
+                )
+                instructions = st.text_input(
+                    "Instructions (Optional)",
+                    placeholder="Specific instructions or focus areas...",
+                    label_visibility="collapsed"
+                )
+            with col_btn:
+                st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
+                submitted = st.form_submit_button("New Research", type="primary", use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     if submitted and topic:
         _execute_research(topic, instructions)

@@ -12,6 +12,8 @@ import asyncio
 from src.config.settings import settings
 from src.utils.logger import app_logger
 
+from fastapi.staticfiles import StaticFiles
+
 app = FastAPI(
     title="Multi-Agent Research API",
     description="API for the Multi-Agent Research & Report Generation System",
@@ -19,6 +21,12 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+import os
+# Create static directory if it doesn't exist
+os.makedirs("static", exist_ok=True)
+app.mount("/dashboard", StaticFiles(directory="static", html=True), name="static")
+
 
 # CORS for Streamlit frontend
 app.add_middleware(
