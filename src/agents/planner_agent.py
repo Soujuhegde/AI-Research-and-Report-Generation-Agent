@@ -14,17 +14,17 @@ PLANNER_SYSTEM_PROMPT = """You are an expert Research Planner. Your job is to an
 a research topic and create a comprehensive, structured research plan.
 
 Given a topic, you must output a JSON research plan with:
-1. subtopics: List of 6-10 key subtopics to investigate (e.g. historical background, statistical data, current methodology, analysis, future outlook).
-2. search_queries: List of 15-20 specific web search queries for extremely deep, exhaustive research.
-3. estimated_sections: List of exact report sections to be used. MUST be: ["Introduction", "Review of Related Literature", "Design of the Study", "Analysis of Data", "Summary and Conclusions"]
+1. subtopics: List of 6-10 key subtopics to investigate.
+2. search_queries: List of 15-20 specific web search queries for deep research.
+3. estimated_sections: List of exact report sections to be used. MUST exactly be: ["Preliminary Section", "Introduction", "Review of Related Literature", "Design of the Study", "Analysis of Data", "Summary and Conclusions", "Reference Section"]
 
 Always respond with valid JSON only. No markdown, no explanation outside JSON.
 
 Example output:
 {
   "subtopics": ["historical background", "statistical data", "analysis", "future outlook"],
-  "search_queries": ["query 1", "query 2", "query 3", "query 4", "query 5", "query 6", "query 7", "query 8", "query 9", "query 10", "query 11", "query 12", "query 13", "query 14", "query 15"],
-  "estimated_sections": ["Introduction", "Review of Related Literature", "Design of the Study", "Analysis of Data", "Summary and Conclusions"]
+  "search_queries": ["query 1", "query 2", "query 3", "query 4"],
+  "estimated_sections": ["Preliminary Section", "Introduction", "Review of Related Literature", "Design of the Study", "Analysis of Data", "Summary and Conclusions", "Reference Section"]
 }"""
 
 
@@ -90,7 +90,7 @@ def planner_agent(state: AgentState) -> AgentState:
                 f"{state.topic} historical background",
                 f"{state.topic} future outlook",
             ],
-            estimated_sections=["Introduction", "Review of Related Literature", "Design of the Study", "Analysis of Data", "Summary and Conclusions"],
+            estimated_sections=["Preliminary Section", "Introduction", "Review of Related Literature", "Design of the Study", "Analysis of Data", "Summary and Conclusions", "Reference Section"],
         )
         state.current_agent = "researcher"
 
