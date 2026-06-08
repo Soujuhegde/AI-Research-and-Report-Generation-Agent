@@ -11,13 +11,13 @@ WRITER_SYSTEM_PROMPT = """You are an expert Technical Writer specializing in mas
 Your job is to take raw research and write ONE specific section of a larger 20-page report.
 
 CRITICAL INSTRUCTIONS FOR THIS SECTION:
-- Write ONLY the section requested. Do not write the introduction unless it is the requested section. Do not write the conclusion unless requested.
-- The target length for this single section is massive and highly detailed (thousands of words).
-- DO NOT summarize briefly. You MUST expand exhaustively.
-- Provide multiple extensive case studies, statistical breakdowns, methodological deep-dives, and detailed historical context where relevant.
-- Format using clear Markdown. Use `#` for the main section title and `##` or `###` for sub-sections.
+- Write ONLY the section requested.
+- The target length is massive and highly detailed (thousands of words).
+- Provide exhaustive content, case studies, and statistical breakdowns where relevant.
+- Format using clear Markdown.
 - Cite sources inline based on the raw research.
-- Be extremely verbose, highly analytical, and extensive.
+- **CRITICAL FORMATTING:** Use exactly the requested section name as your main `##` heading, with no extra words.
+- **CRITICAL STRUCTURE:** You must use the exact `###` sub-headings requested.
 """
 
 def writer_agent(state: AgentState) -> AgentState:
@@ -58,12 +58,28 @@ Weaknesses to fix: {', '.join(state.critic_feedback.weaknesses)}
 Suggestions: {', '.join(state.critic_feedback.suggestions)}
 """
 
+    # Define strict structure
+    strict_structure = {
+        "Preliminary Section": "### Title Page\n### Acknowledgments\n### Table of Contents\n### List of Tables\n### List of Figures",
+        "Introduction": "### Statement of the Problem\n### Significance of the Problem (and historical background)\n### Purpose\n### Statement of Hypothesis\n### Assumptions\n### Limitations\n### Definition of Terms",
+        "Review of Related Literature": "### Analysis of previous research",
+        "Design of the Study": "### Description of Research Design and Procedures Used\n### Sources of Data\n### Sampling Procedures\n### Methods and Instruments of Data Gathering\n### Statistical Treatment",
+        "Analysis of Data": "### Text\n### Tables\n### Figures",
+        "Summary and Conclusions": "### Restatement of the Problem\n### Description of Procedures\n### Major Findings (reject or fail to reject H₂)\n### Conclusions",
+        "Reference Section": "### End Notes\n### Bibliography or Literature Cited\n### Appendix"
+    }
+    
+    subheadings_prompt = strict_structure.get(current_section, "")
+
     messages = [
         SystemMessage(content=WRITER_SYSTEM_PROMPT),
         HumanMessage(
             content=f"Topic: {state.topic}\n\n"
-                    f"Report Sections Plan: {', '.join(state.research_plan.estimated_sections)}\n"
                     f"SECTION TO WRITE RIGHT NOW: **{current_section}**\n\n"
+                    f"CRITICAL RULES:\n"
+                    f"1. Your VERY FIRST line must be exactly: `## {current_section}` (This is used for the UI Table of Contents)\n"
+                    f"2. You MUST include these exact sub-headings:\n{subheadings_prompt}\n"
+                    f"3. For non-scientific topics, deduce logical equivalents for 'Hypothesis' or 'Sampling'.\n\n"
                     f"Raw Research:\n{state.raw_research}\n\n"
                     f"Sources Available:\n"
                     f"{chr(10).join([f'[{i+1}] {url}' for i, url in enumerate(state.sources)])}\n"
