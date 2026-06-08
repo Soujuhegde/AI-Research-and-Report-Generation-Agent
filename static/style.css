@@ -50,6 +50,10 @@ body {
 /* Left Sidebar */
 .left-sidebar {
     background-color: transparent;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 100px);
+    overflow-y: auto;
 }
 
 .sidebar-title {
@@ -82,6 +86,26 @@ body {
 .toc-item.active {
     background-color: #E0E7FF;
     color: #1E40AF;
+    font-weight: 500;
+}
+
+.toc-sublist {
+    list-style: none;
+    padding-left: 1rem;
+}
+
+.toc-subitem {
+    padding: 0.4rem 1rem;
+    margin-bottom: 0.2rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #475569;
+    cursor: pointer;
+}
+
+.toc-subitem.active {
+    background-color: #F1F5F9;
+    color: #1D4ED8;
     font-weight: 500;
 }
 
@@ -283,6 +307,11 @@ body {
 /* Right Sidebar */
 .right-sidebar {
     background-color: transparent;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
 }
 
 .trust-score-container {
@@ -352,10 +381,24 @@ body {
     font-weight: 500;
 }
 
+.citations-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.citations-section .section-heading {
+    margin-bottom: 1rem;
+}
+
 .citations-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 0.5rem;
 }
 
 .citation-item {
@@ -503,5 +546,8 @@ body {
         border: none;
         padding: 0;
         margin: 0;
+    }
+    .report-section {
+        display: block !important;
     }
 }
