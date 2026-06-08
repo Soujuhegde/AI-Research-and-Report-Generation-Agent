@@ -180,34 +180,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render Markdown content
         if (result.final_report) {
-            // Using marked.js to convert markdown to HTML
-            // Note: marked.js automatically generates ids for headers if we enable headerIds
             marked.use({ headerIds: true });
             let htmlContent = marked.parse(result.final_report);
-            reportContentArea.innerHTML = htmlContent;
 
-            // Extract TOC
+            // Extract sections based on <h2>
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = htmlContent;
-            const headers = tempDiv.querySelectorAll('h2, h3');
             
+            const sections = [];
+            let currentSection = { title: 'Abstract', elements: [], id: 'sec-abstract' };
+            
+            Array.from(tempDiv.childNodes).forEach(node => {
+                if (node.tagName && node.tagName.toLowerCase() === 'h2') {
+                    // Push previous section if it has content
+                    if (currentSection.elements.length > 0 || currentSection.title !== 'Abstract') {
+                        sections.push(currentSection);
+                    }
+                    currentSection = { 
+                        title: node.innerText, 
+                        elements: [node], 
+                        id: node.id || 'sec-' + Math.random().toString(36).substr(2, 9) 
+                    };
+                } else {
+                    // Ignore empty text nodes at the start of Abstract
+                    if (currentSection.title === 'Abstract' && node.nodeType === 3 && node.textContent.trim() === '') {
+                        return;
+                    }
+                    currentSection.elements.push(node);
+                }
+            });
+            if (currentSection.elements.length > 0) {
+                sections.push(currentSection);
+            }
+
+            // Render Sections
+            reportContentArea.innerHTML = '';
             tocList.innerHTML = '';
-            headers.forEach((header, index) => {
+
+            sections.forEach((sec, index) => {
+                // Create section container
+                const secDiv = document.createElement('div');
+                secDiv.className = 'report-section';
+                secDiv.id = sec.id;
+                secDiv.style.display = index === 0 ? 'block' : 'none'; // Only first is visible
+                
+                sec.elements.forEach(el => secDiv.appendChild(el));
+                reportContentArea.appendChild(secDiv);
+
+                // Create TOC Item
                 const li = document.createElement('li');
                 li.className = 'toc-item' + (index === 0 ? ' active' : '');
+                li.innerText = sec.title;
                 
-                // Clicking TOC scrolls to the element
+                // Tab switching logic
                 li.onclick = () => {
-                    document.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
+                    // Update active TOC
+                    document.querySelectorAll('.toc-item, .toc-subitem').forEach(i => i.classList.remove('active'));
                     li.classList.add('active');
-                    const targetElement = document.getElementById(header.id);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    
+                    // Hide all sections, show target
+                    document.querySelectorAll('.report-section').forEach(s => s.style.display = 'none');
+                    document.getElementById(sec.id).style.display = 'block';
                 };
                 
-                li.innerText = header.innerText;
                 tocList.appendChild(li);
+
+                // Add sub-items (h3)
+                const subheadings = Array.from(secDiv.querySelectorAll('h3'));
+                if (subheadings.length > 0) {
+                    const subList = document.createElement('ul');
+                    subList.className = 'toc-sublist';
+                    subheadings.forEach(h3 => {
+                        const subLi = document.createElement('li');
+                        subLi.className = 'toc-subitem';
+                        subLi.innerText = h3.innerText;
+                        subLi.onclick = (e) => {
+                            e.stopPropagation();
+                            // Update active TOC
+                            document.querySelectorAll('.toc-item, .toc-subitem').forEach(i => i.classList.remove('active'));
+                            subLi.classList.add('active');
+                            
+                            // Show section
+                            document.querySelectorAll('.report-section').forEach(s => s.style.display = 'none');
+                            document.getElementById(sec.id).style.display = 'block';
+                            
+                            // scroll to h3
+                            h3.scrollIntoView({behavior: 'smooth', block: 'start'});
+                        };
+                        subList.appendChild(subLi);
+                    });
+                    tocList.appendChild(subList);
+                }
             });
         }
 
@@ -271,4 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             prompt("Copy this link to share:", window.location.href);
         }
     };
+
+    // Open modal on load
+    modal.style.display = "block";
 });
