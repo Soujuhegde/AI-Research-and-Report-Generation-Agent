@@ -1,0 +1,38 @@
+# LangGraph + LangChain
+langgraph==0.2.28
+langchain==0.3.7
+langchain-core==0.3.15
+langchain-community==0.3.7
+
+# Sarvam AI (uses OpenAI-compatible interface)
+openai==1.52.0
+httpx==0.27.2
+
+# Web Search
+tavily-python==0.5.0
+
+# FastAPI Backend
+fastapi==0.115.4
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+
+# Streamlit Frontend
+streamlit==1.40.1
+
+# Pydantic & Settings
+pydantic==2.9.2
+pydantic-settings==2.6.0
+
+# PDF Export
+weasyprint==62.3
+
+# Utilities
+python-dotenv==1.0.1
+tenacity==9.0.0
+loguru==0.7.2
+rich==13.9.4
+aiofiles==24.1.0
+
+# Rate Limiting
+slowapi==0.1.9
+limits==3.13.0
