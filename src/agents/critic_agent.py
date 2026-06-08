@@ -63,6 +63,10 @@ def critic_agent(state: AgentState) -> AgentState:
         response = llm.invoke(messages)
         content = response.content.strip()
 
+        # Clean markdown codeblocks
+        content = re.sub(r'^```[a-zA-Z]*\s*', '', content)
+        content = re.sub(r'\s*```$', '', content)
+        
         # Extract JSON
         json_match = re.search(r'\{.*\}', content, re.DOTALL)
         if json_match:
