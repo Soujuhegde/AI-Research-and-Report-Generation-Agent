@@ -56,6 +56,10 @@ def fact_checker_agent(state: AgentState) -> AgentState:
         response = llm.invoke(messages)
         content = response.content.strip()
 
+        # Clean markdown codeblocks
+        content = re.sub(r'^```[a-zA-Z]*\s*', '', content)
+        content = re.sub(r'\s*```$', '', content)
+
         json_match = re.search(r'\{.*\}', content, re.DOTALL)
         if json_match:
             fc_data = json.loads(json_match.group())
