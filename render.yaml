@@ -1,0 +1,40 @@
+services:
+  # FastAPI Backend (Free Tier)
+  - type: web
+    name: research-api
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: APP_ENV
+        value: production
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+
+  # Streamlit Frontend (Free Tier)
+  - type: web
+    name: research-frontend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: streamlit run frontend/app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    envVars:
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: APP_ENV
+        value: production
+      - key: PYTHONPATH
+        value: /opt/render/project/src
