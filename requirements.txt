@@ -25,6 +25,8 @@ pydantic-settings
 
 # PDF Export
 xhtml2pdf
+markdown
+
 
 # Utilities
 python-dotenv
@@ -36,3 +38,4 @@ aiofiles
 # Rate Limiting
 slowapi
 limits
+

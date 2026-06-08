@@ -53,6 +53,16 @@ class ResearchResponse(BaseModel):
     message: str
 
 
+from fastapi.responses import RedirectResponse, Response
+
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/dashboard/")
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return Response(status_code=204)
+
 @app.get("/health")
 async def health_check():
     return {
