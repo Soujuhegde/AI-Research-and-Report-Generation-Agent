@@ -24,6 +24,31 @@ def apply_theme():
             letter-spacing: -0.02em;
             color: #0F172A;
         }
+        
+        .hero-banner {
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        .hero-title {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 3rem !important;
+            font-weight: 800 !important;
+            color: #0F172A;
+            letter-spacing: -0.03em;
+        }
+
+        /* Streamlit Native Form Neumorphism */
+        [data-testid="stForm"] {
+            background-color: #F0F4F8 !important;
+            padding: 2.5rem !important;
+            border-radius: 20px !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 
+                8px 8px 16px rgba(163, 177, 198, 0.4), 
+                -8px -8px 16px rgba(255, 255, 255, 0.8) !important;
+            margin-bottom: 3rem !important;
+        }
 
         /* Neumorphic Report Container */
         .academic-report-container {

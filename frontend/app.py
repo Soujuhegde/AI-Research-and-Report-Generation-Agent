@@ -41,9 +41,8 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # Main Input Area (Centered Search Engine Style, but integrated cleanly)
+    # Main Input Area
     with st.container():
-        st.markdown("<div style='background-color:#FFFFFF; padding:2rem; border-radius:16px; box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.4), -6px -6px 12px rgba(255, 255, 255, 0.8); margin-bottom: 2rem;'>", unsafe_allow_html=True)
         with st.form("research_form", clear_on_submit=False):
             col_input, col_btn = st.columns([4, 1])
             with col_input:
@@ -60,7 +59,6 @@ def main():
             with col_btn:
                 st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
                 submitted = st.form_submit_button("New Research", type="primary", use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     if submitted and topic:
         _execute_research(topic, instructions)
