@@ -81,9 +81,6 @@ body {
     font-size: 0.9rem;
     color: #334155;
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .toc-item.active {
@@ -104,9 +101,6 @@ body {
     font-size: 0.85rem;
     color: #475569;
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .toc-subitem.active {
@@ -154,7 +148,7 @@ body {
     margin-top: 2.5rem;
     margin-bottom: 1rem;
     color: #0F172A;
-    font-weight: 800;
+    font-weight: 600;
 }
 #reportContentArea h2 { font-size: 1.5rem; border-bottom: 1px solid #E2E8F0; padding-bottom: 0.5rem; }
 #reportContentArea h3 { font-size: 1.25rem; }
@@ -416,7 +410,7 @@ body {
 /* Dashboard Layout */
 .dashboard-container {
     display: grid;
-    grid-template-columns: 340px 1fr 340px; /* Increased left and right columns */
+    grid-template-columns: 240px 1fr 340px; /* Increased right column from 300px to 340px */
     gap: 1.5rem;
     padding: 1.5rem 2rem;
     max-width: 1600px;
