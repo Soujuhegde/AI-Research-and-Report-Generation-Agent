@@ -50,6 +50,11 @@ def researcher_agent(state: AgentState) -> AgentState:
     state.search_results = search_results
     state.sources = [r.url for r in search_results if r.url]
 
+    if not state.sources:
+        state.error = "Web search failed to return any sources. Please check if your TAVILY_API_KEY is valid and has remaining quota in Render."
+        state.is_complete = True
+        return state
+
     # Use LLM to synthesize the research
     llm = get_llm(temperature=0.4, max_tokens=4000)
 
