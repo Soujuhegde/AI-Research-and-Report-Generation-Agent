@@ -43,19 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const obstacle = document.getElementById('obstacle');
         const scoreText = document.getElementById('gameScore');
         const gameContainer = document.getElementById('gameContainer');
-        
+
         gameScore = 0;
         isGameOver = false;
         obstacle.classList.add('move');
         obstacle.style.animationDuration = '1.5s';
-        
+
         const jump = () => {
             if (!dino.classList.contains('jump') && !isGameOver) {
                 dino.classList.add('jump');
                 setTimeout(() => dino.classList.remove('jump'), 500);
             }
         };
-        
+
         gameContainer.onclick = (e) => {
             if (isGameOver) startGame();
             else jump();
@@ -71,10 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gameInterval = setInterval(() => {
             if (isGameOver) return;
-            
+
             let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue('top'));
             let obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue('left'));
-            
+
             // Basic collision detection
             if (obstacleLeft < 70 && obstacleLeft > 40 && dinoTop >= 80) {
                 obstacle.classList.remove('move');
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 gameScore++;
                 scoreText.innerText = "Score: " + Math.floor(gameScore / 10);
-                
+
                 // Speed up slightly over time
                 if (gameScore % 500 === 0) {
                     let currentDur = parseFloat(window.getComputedStyle(obstacle).animationDuration);
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     const errData = await response.json();
                     errText = errData.detail || JSON.stringify(errData);
-                } catch(e) {
+                } catch (e) {
                     errText = await response.text();
                 }
                 throw new Error(errText);
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             currentJobId = data.job_id;
-            
+
             // Poll for status
             pollStatus();
 
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderReport(topic, result) {
         currentReportResult = result;
         currentTopic = topic;
-        
+
         // Render Title
         reportTitle.innerText = topic;
 
@@ -203,20 +203,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // Extract sections based on <h2>
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = htmlContent;
-            
+
             const sections = [];
             let currentSection = { title: 'Abstract', elements: [], id: 'sec-abstract' };
-            
+
             Array.from(tempDiv.childNodes).forEach(node => {
                 if (node.tagName && node.tagName.toLowerCase() === 'h2') {
                     // Push previous section if it has content
                     if (currentSection.elements.length > 0 || currentSection.title !== 'Abstract') {
                         sections.push(currentSection);
                     }
-                    currentSection = { 
-                        title: node.innerText, 
-                        elements: [node], 
-                        id: node.id || 'sec-' + Math.random().toString(36).substr(2, 9) 
+                    currentSection = {
+                        title: node.innerText,
+                        elements: [node],
+                        id: node.id || 'sec-' + Math.random().toString(36).substr(2, 9)
                     };
                 } else {
                     // Ignore empty text nodes at the start of Abstract
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 secDiv.className = 'report-section';
                 secDiv.id = sec.id;
                 secDiv.style.display = index === 0 ? 'block' : 'none'; // Only first is visible
-                
+
                 sec.elements.forEach(el => secDiv.appendChild(el));
                 reportContentArea.appendChild(secDiv);
 
@@ -248,18 +248,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 li.className = 'toc-item' + (index === 0 ? ' active' : '');
                 li.innerText = sec.title;
-                
+
                 // Tab switching logic
                 li.onclick = () => {
                     // Update active TOC
                     document.querySelectorAll('.toc-item, .toc-subitem').forEach(i => i.classList.remove('active'));
                     li.classList.add('active');
-                    
+
                     // Hide all sections, show target
                     document.querySelectorAll('.report-section').forEach(s => s.style.display = 'none');
                     document.getElementById(sec.id).style.display = 'block';
                 };
-                
+
                 tocList.appendChild(li);
 
                 // Add sub-items (h3)
@@ -276,13 +276,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Update active TOC
                             document.querySelectorAll('.toc-item, .toc-subitem').forEach(i => i.classList.remove('active'));
                             subLi.classList.add('active');
-                            
+
                             // Show section
                             document.querySelectorAll('.report-section').forEach(s => s.style.display = 'none');
                             document.getElementById(sec.id).style.display = 'block';
-                            
+
                             // scroll to h3
-                            h3.scrollIntoView({behavior: 'smooth', block: 'start'});
+                            h3.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         };
                         subList.appendChild(subLi);
                     });
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render Citations
         if (result.sources && result.sources.length > 0) {
             citationsList.innerHTML = '';
-            result.sources.forEach((source, index) => {
+            result.sources.slice(0, 10).forEach((source, index) => {
                 const div = document.createElement('div');
                 div.className = 'citation-item';
                 div.innerHTML = `<a href="${source}" target="_blank">Citation ${index + 1}: ${source}</a>`;
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sources: currentReportResult.sources,
             credibility: currentReportResult.credibility
         }, null, 2));
-        
+
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute("href", dataStr);
         downloadAnchorNode.setAttribute("download", currentTopic.replace(/\\s+/g, '_') + "_Data.json");
