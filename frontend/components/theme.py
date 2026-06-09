@@ -322,8 +322,9 @@ def apply_theme():
             font-weight: 700 !important; /* Bolder font */
             color: #475569;
             transition: all 0.2s ease;
-            white-space: normal;
-            word-wrap: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             line-height: 1.4;
             display: flex;
             justify-content: space-between;
@@ -350,38 +351,16 @@ def apply_theme():
             line-height: 1.4;
             cursor: pointer;
             transition: all 0.2s ease;
-            white-space: normal;
-            word-wrap: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .toc-subitem:hover {
             color: #0F172A;
             background-color: #F8FAFC;
             border-radius: 6px;
         }
-            color: #2563EB;
-            font-weight: 600 !important;
-            padding: 0.9rem 1.2rem;
-            border-radius: 12px;
-            font-size: 21px !important;
-            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.05);
-        }
-        .toc-subitem {
-            font-size: 18px !important;
-            font-weight: 400 !important;
-            padding: 0.5rem 1.2rem 0.5rem 2.2rem;
-            margin-bottom: 0.5rem;
-            color: #64748B;
-            line-height: 1.5;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: normal;
-            word-wrap: break-word;
-        }
-        .toc-subitem:hover {
-            color: #0F172A;
-            background-color: #F8FAFC;
-            border-radius: 8px;
-        }
+
 
         /* Hero Header */
         .hero-banner {

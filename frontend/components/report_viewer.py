@@ -122,7 +122,7 @@ def display_full_report(
     st.markdown("<br>", unsafe_allow_html=True)
     
     # Dashboard 3-column layout (optimised for sidebar readability)
-    col_left, col_main, col_right = st.columns([2.8, 4.2, 2.8])
+    col_left, col_main, col_right = st.columns([3.3, 4.2, 2.3])
     
     # LEFT COLUMN: Table of Contents
     with col_left:
@@ -133,70 +133,58 @@ def display_full_report(
         <div class='toc-scroll-container'>
             
             <details class="toc-accordion" open>
-                <summary class="toc-item active">Preliminary Section</summary>
+                <summary class="toc-item active">A. Preliminary Section</summary>
                 <ul class="toc-sublist">
-                    <li class="toc-subitem">Title Page</li>
-                    <li class="toc-subitem">Acknowledgments</li>
-                    <li class="toc-subitem">Abstract</li>
-                    <li class="toc-subitem">Table of Contents</li>
-                    <li class="toc-subitem">List of Tables</li>
-                    <li class="toc-subitem">List of Figures</li>
+                    <li class="toc-subitem">1. Title Page</li>
+                    <li class="toc-subitem">2. Acknowledgments (if any)</li>
+                    <li class="toc-subitem">3. Table of Contents</li>
+                    <li class="toc-subitem">4. List of Tables (if any)</li>
+                    <li class="toc-subitem">5. List of Figures (if any)</li>
                 </ul>
             </details>
 
             <details class="toc-accordion">
-                <summary class="toc-item">1. Introduction</summary>
+                <summary class="toc-item">B. Main Body</summary>
                 <ul class="toc-sublist">
-                    <li class="toc-subitem">Statement of the Problem</li>
-                    <li class="toc-subitem">Significance of the Problem</li>
-                    <li class="toc-subitem">Purpose</li>
-                    <li class="toc-subitem">Statement of Hypothesis</li>
-                    <li class="toc-subitem">Assumptions</li>
-                    <li class="toc-subitem">Limitations</li>
-                    <li class="toc-subitem">Definition of Terms</li>
+                    <li class="toc-subitem" style="font-weight: 700; color: #0F172A;">1. Introduction</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">a. Statement of the Problem</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">b. Significance of the Problem (and historical background)</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">c. Purpose</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">d. Statement of Hypothesis</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">e. Assumptions</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">f. Limitations</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">g. Definition of Terms</li>
+                    
+                    <li class="toc-subitem" style="font-weight: 700; color: #0F172A; margin-top: 0.5rem;">2. Review of Related Literature</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">(and analysis of previous research)</li>
+                    
+                    <li class="toc-subitem" style="font-weight: 700; color: #0F172A; margin-top: 0.5rem;">3. Design of the Study</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">a. Description of Research Design and Procedures Used</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">b. Sources of Data</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">c. Sampling Procedures</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">d. Methods and Instruments of Data Gathering</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">e. Statistical Treatment</li>
+                    
+                    <li class="toc-subitem" style="font-weight: 700; color: #0F172A; margin-top: 0.5rem;">4. Analysis of Data</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">Contains:</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">a. text with appropriate</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">b. tables and</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">c. figures</li>
+                    
+                    <li class="toc-subitem" style="font-weight: 700; color: #0F172A; margin-top: 0.5rem;">5. Summary and Conclusions</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">a. Restatement of the Problem</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">b. Description of Procedures</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">c. Major Findings (reject or fail to reject H₂)</li>
+                    <li class="toc-subitem" style="padding-left: 2.5rem; font-size: 14px !important;">d. Conclusions</li>
                 </ul>
             </details>
 
             <details class="toc-accordion">
-                <summary class="toc-item">2. Review of Related Literature</summary>
-            </details>
-
-            <details class="toc-accordion">
-                <summary class="toc-item">3. Design of the Study</summary>
+                <summary class="toc-item">C. Reference Section</summary>
                 <ul class="toc-sublist">
-                    <li class="toc-subitem">Description of Research Design and Procedures Used</li>
-                    <li class="toc-subitem">Sources of Data</li>
-                    <li class="toc-subitem">Sampling Procedures</li>
-                    <li class="toc-subitem">Methods and Instruments of Data Gathering</li>
-                    <li class="toc-subitem">Statistical Treatment</li>
-                </ul>
-            </details>
-
-            <details class="toc-accordion">
-                <summary class="toc-item">4. Analysis of Data</summary>
-                <ul class="toc-sublist">
-                    <li class="toc-subitem">Text</li>
-                    <li class="toc-subitem">Tables</li>
-                    <li class="toc-subitem">Figures</li>
-                </ul>
-            </details>
-
-            <details class="toc-accordion">
-                <summary class="toc-item">5. Summary and Conclusions</summary>
-                <ul class="toc-sublist">
-                    <li class="toc-subitem">Restatement of the Problem</li>
-                    <li class="toc-subitem">Description of Procedures</li>
-                    <li class="toc-subitem">Major Findings</li>
-                    <li class="toc-subitem">Conclusions</li>
-                </ul>
-            </details>
-
-            <details class="toc-accordion">
-                <summary class="toc-item">6. Sources</summary>
-                <ul class="toc-sublist">
-                    <li class="toc-subitem">End Notes</li>
-                    <li class="toc-subitem">Bibliography / Literature Cited</li>
-                    <li class="toc-subitem">Appendix</li>
+                    <li class="toc-subitem">1. End Notes (if in that format of citation)</li>
+                    <li class="toc-subitem">2. Bibliography or Literature Cited</li>
+                    <li class="toc-subitem">3. Appendix</li>
                 </ul>
             </details>
 
