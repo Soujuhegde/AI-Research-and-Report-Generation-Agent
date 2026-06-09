@@ -128,15 +128,21 @@ async def _run_research_background(
             max_iterations=max_iterations,
         )
 
-        job_store[job_id].update({
-            "status": "complete",
-            "result": {
-                "final_report": result.final_report,
-                "sources": result.sources,
-                "quality_score": result.critic_feedback.score if result.critic_feedback else None,
-                "credibility": result.fact_check_result.overall_credibility if result.fact_check_result else None,
-            }
-        })
+        if result.error:
+            job_store[job_id].update({
+                "status": "failed",
+                "error": result.error,
+            })
+        else:
+            job_store[job_id].update({
+                "status": "complete",
+                "result": {
+                    "final_report": result.final_report,
+                    "sources": result.sources,
+                    "quality_score": result.critic_feedback.score if result.critic_feedback else None,
+                    "credibility": result.fact_check_result.overall_credibility if result.fact_check_result else None,
+                }
+            })
 
     except Exception as e:
         app_logger.error(f"Job {job_id} failed: {e}")
