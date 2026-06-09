@@ -37,7 +37,7 @@ def main():
     # Dashboard Header
     st.markdown("""
     <div class="hero-banner">
-        <h1 class="hero-title">Editorial Research Layout Dashboard</h1>
+        <h1 class="hero-title">AI Autonomous Research Workspace</h1>
     </div>
     """, unsafe_allow_html=True)
 

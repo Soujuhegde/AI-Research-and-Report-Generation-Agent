@@ -18,6 +18,7 @@ CRITICAL INSTRUCTIONS FOR THIS SECTION:
 - Cite sources inline based on the raw research.
 - **CRITICAL FORMATTING:** Use exactly the requested section name as your main `##` heading, with no extra words.
 - **CRITICAL STRUCTURE:** You must use the exact `###` sub-headings requested.
+- **ABSTRACT CONTENT:** If writing an Abstract or Preliminary Section, ensure you explain: why the topic was chosen, the exact problem being faced, and what research is being done.
 """
 
 def writer_agent(state: AgentState) -> AgentState:
@@ -60,7 +61,7 @@ Suggestions: {', '.join(state.critic_feedback.suggestions)}
 
     # Define strict structure
     strict_structure = {
-        "Preliminary Section": "### Title Page\n### Acknowledgments\n### Table of Contents\n### List of Tables\n### List of Figures",
+        "Preliminary Section": "### Title Page\n### Acknowledgments\n### Abstract\n### Table of Contents\n### List of Tables\n### List of Figures",
         "Introduction": "### Statement of the Problem\n### Significance of the Problem (and historical background)\n### Purpose\n### Statement of Hypothesis\n### Assumptions\n### Limitations\n### Definition of Terms",
         "Review of Related Literature": "### Analysis of previous research",
         "Design of the Study": "### Description of Research Design and Procedures Used\n### Sources of Data\n### Sampling Procedures\n### Methods and Instruments of Data Gathering\n### Statistical Treatment",

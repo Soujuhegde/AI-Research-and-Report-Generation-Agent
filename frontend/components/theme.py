@@ -99,12 +99,41 @@ def apply_theme():
 
         .sidebar-panel-title {
             font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 700 !important;
+            font-size: 16px !important;
             color: #0F172A;
             margin-bottom: 1rem;
             border-bottom: 1px solid #E2E8F0;
             padding-bottom: 0.5rem;
+        }
+
+        .sidebar-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin-bottom: 1.25rem;
+        }
+        
+        .sidebar-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700 !important;
+            font-size: 16px !important;
+            color: #1E293B !important;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 0.5rem;
+        }
+
+        .toc-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: none;
+            font-size: 24px !important;
+            font-weight: 600 !important;
+            padding-bottom: 0.8rem;
         }
 
         /* Quick Actions Grid */
@@ -225,20 +254,80 @@ def apply_theme():
             margin-bottom: 0.5rem !important;
         }
 
-        /* Table of Contents List */
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        /* TOC Scroll Container (Sticky) */
+        .toc-scroll-container {
+            max-height: 75vh;
+            overflow-y: auto;
+            padding-right: 5px;
+            position: sticky;
+            top: 1rem;
         }
-        .toc-item {
-            padding: 0.6rem 1rem;
+        .toc-scroll-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .toc-scroll-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .toc-scroll-container::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+        .toc-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+
+        /* HTML Accordion Styling */
+        details.toc-accordion {
             margin-bottom: 0.5rem;
+        }
+        details.toc-accordion > summary {
+            list-style: none; /* remove default arrow */
+        }
+        details.toc-accordion > summary::-webkit-details-marker {
+            display: none; /* remove default arrow safari */
+        }
+        details.toc-accordion[open] > summary {
+            margin-bottom: 0.2rem;
+        }
+        
+        details.toc-accordion > summary::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid #94A3B8;
+            border-bottom: 2px solid #94A3B8;
+            transform: rotate(45deg);
+            transition: transform 0.2s;
+            margin-right: 6px;
+        }
+        details.toc-accordion[open] > summary::after {
+            transform: rotate(-135deg);
+            margin-top: 4px;
+        }
+
+        .toc-sublist {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+            border-left: 2px solid #E2E8F0;
+            margin-left: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .toc-item {
+            padding: 0.7rem 1rem;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 19px !important; /* Increased font size */
+            font-weight: 700 !important; /* Bolder font */
             color: #475569;
             transition: all 0.2s ease;
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .toc-item:hover {
             background-color: #E2E8F0;
@@ -247,8 +336,51 @@ def apply_theme():
         .toc-item.active {
             background-color: #E6F0FE;
             color: #2563EB;
-            font-weight: 600;
+            font-weight: 700 !important;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 19px !important;
+        }
+        .toc-subitem {
+            font-size: 15px !important;
+            font-weight: 400 !important;
+            padding: 0.4rem 1rem 0.4rem 1.5rem;
+            margin-bottom: 0.2rem;
+            color: #64748B;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        .toc-subitem:hover {
+            color: #0F172A;
+            background-color: #F8FAFC;
+            border-radius: 6px;
+        }
+            color: #2563EB;
+            font-weight: 600 !important;
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            font-size: 21px !important;
             box-shadow: inset 2px 2px 4px rgba(0,0,0,0.05);
+        }
+        .toc-subitem {
+            font-size: 18px !important;
+            font-weight: 400 !important;
+            padding: 0.5rem 1.2rem 0.5rem 2.2rem;
+            margin-bottom: 0.5rem;
+            color: #64748B;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        .toc-subitem:hover {
+            color: #0F172A;
+            background-color: #F8FAFC;
+            border-radius: 8px;
         }
 
         /* Hero Header */

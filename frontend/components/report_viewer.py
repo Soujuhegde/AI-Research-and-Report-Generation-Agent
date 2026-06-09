@@ -121,49 +121,91 @@ def display_full_report(
     """
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Dashboard 3-column layout
-    col_left, col_main, col_right = st.columns([2, 5, 2.5])
+    # Dashboard 3-column layout (optimised for sidebar readability)
+    col_left, col_main, col_right = st.columns([2.8, 4.2, 2.8])
     
     # LEFT COLUMN: Table of Contents
     with col_left:
         st.markdown("<div class='sidebar-panel'>", unsafe_allow_html=True)
-        st.markdown("<div class='sidebar-panel-title'>Table of Contents</div>", unsafe_allow_html=True)
+        st.markdown("<div class='sidebar-panel-title toc-title'><span>Table of Contents</span><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#64748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='18 15 12 9 6 15'></polyline></svg></div>", unsafe_allow_html=True)
         
-        toc_items = extract_toc(report_markdown)
-        if toc_items:
-            html = "<ul class='toc-list'>"
-            # Add an Introduction item as default active
-            html += "<li class='toc-item active'>1. Introduction</li>"
+        html = """
+        <div class='toc-scroll-container'>
             
-            counter = 2
-            for level, title in toc_items:
-                if level == 2:
-                    # Clean markdown symbols from title if any
-                    clean_title = title.replace('*', '').replace('_', '')
-                    html += f"<li class='toc-item'>{counter}. {clean_title}</li>"
-                    counter += 1
-            html += "</ul>"
-            st.markdown(html, unsafe_allow_html=True)
-        else:
-            st.info("No sections found")
+            <details class="toc-accordion" open>
+                <summary class="toc-item active">Preliminary Section</summary>
+                <ul class="toc-sublist">
+                    <li class="toc-subitem">Title Page</li>
+                    <li class="toc-subitem">Acknowledgments</li>
+                    <li class="toc-subitem">Abstract</li>
+                    <li class="toc-subitem">Table of Contents</li>
+                    <li class="toc-subitem">List of Tables</li>
+                    <li class="toc-subitem">List of Figures</li>
+                </ul>
+            </details>
+
+            <details class="toc-accordion">
+                <summary class="toc-item">1. Introduction</summary>
+                <ul class="toc-sublist">
+                    <li class="toc-subitem">Statement of the Problem</li>
+                    <li class="toc-subitem">Significance of the Problem</li>
+                    <li class="toc-subitem">Purpose</li>
+                    <li class="toc-subitem">Statement of Hypothesis</li>
+                    <li class="toc-subitem">Assumptions</li>
+                    <li class="toc-subitem">Limitations</li>
+                    <li class="toc-subitem">Definition of Terms</li>
+                </ul>
+            </details>
+
+            <details class="toc-accordion">
+                <summary class="toc-item">2. Review of Related Literature</summary>
+            </details>
+
+            <details class="toc-accordion">
+                <summary class="toc-item">3. Design of the Study</summary>
+                <ul class="toc-sublist">
+                    <li class="toc-subitem">Description of Research Design and Procedures Used</li>
+                    <li class="toc-subitem">Sources of Data</li>
+                    <li class="toc-subitem">Sampling Procedures</li>
+                    <li class="toc-subitem">Methods and Instruments of Data Gathering</li>
+                    <li class="toc-subitem">Statistical Treatment</li>
+                </ul>
+            </details>
+
+            <details class="toc-accordion">
+                <summary class="toc-item">4. Analysis of Data</summary>
+                <ul class="toc-sublist">
+                    <li class="toc-subitem">Text</li>
+                    <li class="toc-subitem">Tables</li>
+                    <li class="toc-subitem">Figures</li>
+                </ul>
+            </details>
+
+            <details class="toc-accordion">
+                <summary class="toc-item">5. Summary and Conclusions</summary>
+                <ul class="toc-sublist">
+                    <li class="toc-subitem">Restatement of the Problem</li>
+                    <li class="toc-subitem">Description of Procedures</li>
+                    <li class="toc-subitem">Major Findings</li>
+                    <li class="toc-subitem">Conclusions</li>
+                </ul>
+            </details>
+
+            <details class="toc-accordion">
+                <summary class="toc-item">6. Sources</summary>
+                <ul class="toc-sublist">
+                    <li class="toc-subitem">End Notes</li>
+                    <li class="toc-subitem">Bibliography / Literature Cited</li>
+                    <li class="toc-subitem">Appendix</li>
+                </ul>
+            </details>
+
+        </div>
+        """
+        st.markdown(html, unsafe_allow_html=True)
             
         st.markdown("</div>", unsafe_allow_html=True)
         
-        # Sources/Citations in Left Column too
-        if sources:
-            st.markdown("<div class='sidebar-panel'>", unsafe_allow_html=True)
-            st.markdown("<div class='sidebar-panel-title'>Related Citations</div>", unsafe_allow_html=True)
-            html = "<div style='max-height: 400px; overflow-y: auto;'>"
-            for i, url in enumerate(sources, 1):
-                html += f"""
-                <div style="margin-bottom:0.75rem;">
-                    <div style="color:#0F172A; font-size:0.85rem; font-weight:600;">Citation {i}</div>
-                    <a href="{url}" target="_blank" style="color:#64748B; text-decoration:none; word-break:break-all; font-size:0.75rem; line-height:1.2;">{url}</a>
-                </div>
-                """
-            html += "</div>"
-            st.markdown(html, unsafe_allow_html=True)
-            st.markdown("</div>", unsafe_allow_html=True)
 
     # CENTER COLUMN: Main Report Content
     with col_main:
@@ -206,7 +248,7 @@ def display_full_report(
         elif metadata and metadata.get("quality_score"):
             credibility = metadata.get("quality_score", 0) / 10.0
             
-        st.markdown("<div class='sidebar-panel'>", unsafe_allow_html=True)
+        st.markdown("<div class='sidebar-card'>", unsafe_allow_html=True)
         st.markdown(f"""
         <div class="trust-score-container">
             <div class="trust-score-header">
@@ -221,8 +263,8 @@ def display_full_report(
         st.markdown("</div>", unsafe_allow_html=True)
         
         # Quick Actions
-        st.markdown("<div class='sidebar-panel'>", unsafe_allow_html=True)
-        st.markdown("<div class='sidebar-panel-title'>Quick Action</div>", unsafe_allow_html=True)
+        st.markdown("<div class='sidebar-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='sidebar-card-title'>Quick Action</div>", unsafe_allow_html=True)
         render_export_buttons(
             report_markdown=report_markdown,
             topic=topic,
@@ -238,8 +280,8 @@ def display_full_report(
         
         # Report Metrics
         if metadata:
-            st.markdown("<div class='sidebar-panel'>", unsafe_allow_html=True)
-            st.markdown("<div class='sidebar-panel-title'>Analysis Metrics</div>", unsafe_allow_html=True)
+            st.markdown("<div class='sidebar-card'>", unsafe_allow_html=True)
+            st.markdown("<div class='sidebar-card-title'>Analysis Metrics</div>", unsafe_allow_html=True)
             m_col1, m_col2 = st.columns(2)
             m_col1.metric("Sources Analysed", metadata.get("total_sources", "0"))
             words = len(report_markdown.split())
@@ -248,7 +290,23 @@ def display_full_report(
             
         # Agent Timeline
         if state_dict:
-            st.markdown("<div class='sidebar-panel'>", unsafe_allow_html=True)
-            st.markdown("<div class='sidebar-panel-title'>Generation Trace</div>", unsafe_allow_html=True)
+            st.markdown("<div class='sidebar-card'>", unsafe_allow_html=True)
+            st.markdown("<div class='sidebar-card-title'>Generation Trace</div>", unsafe_allow_html=True)
             render_agent_timeline(state_dict)
+            st.markdown("</div>", unsafe_allow_html=True)
+            
+        # Citations Panel in Right Column
+        if sources:
+            st.markdown("<div class='sidebar-card'>", unsafe_allow_html=True)
+            st.markdown("<div class='sidebar-card-title'>Related Citations</div>", unsafe_allow_html=True)
+            html = "<div style='max-height: 400px; overflow-y: auto; padding-right: 5px;'>"
+            for i, url in enumerate(sources, 1):
+                html += f"""
+                <div style="margin-bottom:1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #F1F5F9;">
+                    <div style="color:#0F172A; font-size:15px; font-weight:700; margin-bottom: 0.2rem;">Citation {i}</div>
+                    <a href="{url}" target="_blank" style="color:#2563EB; text-decoration:none; word-break:break-all; font-size:14px; line-height:1.4;">{url}</a>
+                </div>
+                """
+            html += "</div>"
+            st.markdown(html, unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
