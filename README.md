@@ -7,8 +7,6 @@
   [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white)](https://streamlit.io/)
 </div>
 
----
-
 ## ✨ Features
 
 - **Autonomous Agentic Orchestration**: Seamlessly coordinates **6 specialized AI agents** using LangGraph.
@@ -20,8 +18,6 @@
   - Real-time agent generation trace logs.
 - **One-Click Deploy**: Production-ready deployment to Render via the included Blueprint.
 
----
-
 ## 🏗️ Architecture
 
 The system utilizes a central **LangGraph State Machine** to orchestrate the workflow of 6 specialized agents. They do not talk over a network; instead, they sequentially mutate and pass a strict Pydantic shared state.
@@ -32,8 +28,6 @@ The system utilizes a central **LangGraph State Machine** to orchestrate the wor
 4. **Assembler Agent**: Stitches the individually drafted sections into a cohesive markdown document.
 5. **Critic Agent**: Reviews the full draft for flow, tone, and requirements. If it scores poorly, it sends it back for revision.
 6. **Fact-Checker Agent**: Validates the finalized facts against the original raw research to calculate an overall credibility score.
-
----
 
 ## 🚀 Getting Started
 
@@ -81,8 +75,6 @@ streamlit run frontend/app.py
 uvicorn api.main:app --reload --port 8000
 ```
 
----
-
 ## ☁️ Deployment (Render)
 
 This project is completely ready to be deployed to Render for free using the included `render.yaml` Blueprint.
@@ -94,8 +86,6 @@ This project is completely ready to be deployed to Render for free using the inc
 5. Go to the newly created `research-frontend` service dashboard on Render.
 6. Under **Environment**, securely paste your `SARVAM_API_KEY` and `TAVILY_API_KEY`.
 7. Once the build finishes, access your live workspace URL!
-
----
 
 ## 🛠️ Technologies Used
 
