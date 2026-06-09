@@ -62,6 +62,7 @@ def export_to_pdf(markdown_content: str, topic: str) -> str:
                 margin-top: 20pt;
                 margin-bottom: 12pt;
                 font-weight: bold;
+                page-break-before: always;
             }}
             h3 {{
                 font-size: 13pt;
