@@ -123,7 +123,7 @@ def _assemble_final_report(state: AgentState) -> str:
 - **Unverifiable Claims:** {len(fc.unverifiable_claims) if fc else 0}
 
 ## 🔗 Sources
-{chr(10).join([f'{i+1}. {url}' for i, url in enumerate(state.sources)])}
+{chr(10).join([f'{i+1}. {url}' for i, url in enumerate(state.sources[:10])])}
 
 *⚠️ Always independently verify claims. Sources may have changed since retrieval.*
 """

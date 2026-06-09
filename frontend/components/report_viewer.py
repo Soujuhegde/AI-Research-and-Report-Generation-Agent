@@ -288,7 +288,7 @@ def display_full_report(
             st.markdown("<div class='sidebar-card'>", unsafe_allow_html=True)
             st.markdown("<div class='sidebar-card-title'>Related Citations</div>", unsafe_allow_html=True)
             html = "<div style='max-height: 400px; overflow-y: auto; padding-right: 5px;'>"
-            for i, url in enumerate(sources, 1):
+            for i, url in enumerate(sources[:10], 1):
                 html += f"""
                 <div style="margin-bottom:1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #F1F5F9;">
                     <div style="color:#0F172A; font-size:15px; font-weight:700; margin-bottom: 0.2rem;">Citation {i}</div>

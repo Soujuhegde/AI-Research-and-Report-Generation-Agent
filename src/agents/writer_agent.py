@@ -61,13 +61,13 @@ Suggestions: {', '.join(state.critic_feedback.suggestions)}
 
     # Define strict structure
     strict_structure = {
-        "Preliminary Section": "### Title Page\n### Acknowledgments\n### Abstract\n### Table of Contents\n### List of Tables\n### List of Figures",
-        "Introduction": "### Statement of the Problem\n### Significance of the Problem (and historical background)\n### Purpose\n### Statement of Hypothesis\n### Assumptions\n### Limitations\n### Definition of Terms",
-        "Review of Related Literature": "### Analysis of previous research",
-        "Design of the Study": "### Description of Research Design and Procedures Used\n### Sources of Data\n### Sampling Procedures\n### Methods and Instruments of Data Gathering\n### Statistical Treatment",
-        "Analysis of Data": "### Text\n### Tables\n### Figures",
-        "Summary and Conclusions": "### Restatement of the Problem\n### Description of Procedures\n### Major Findings (reject or fail to reject H₂)\n### Conclusions",
-        "Reference Section": "### End Notes\n### Bibliography or Literature Cited\n### Appendix"
+        "Preliminary Section": "### 1. Title Page\n### 2. Acknowledgments (if any)\n### 3. Abstract\n### 4. Table of Contents\n### 5. List of Tables (if any)\n### 6. List of Figures (if any)",
+        "Introduction": "### a. Statement of the Problem\n### b. Significance of the Problem (and historical background)\n### c. Purpose\n### d. Statement of Hypothesis\n### e. Assumptions\n### f. Limitations\n### g. Definition of Terms",
+        "Review of Related Literature": "### (and analysis of previous research)",
+        "Design of the Study": "### a. Description of Research Design and Procedures Used\n### b. Sources of Data\n### c. Sampling Procedures\n### d. Methods and Instruments of Data Gathering\n### e. Statistical Treatment",
+        "Analysis of Data": "### a. text with appropriate\n### b. tables and\n### c. figures",
+        "Summary and Conclusions": "### a. Restatement of the Problem\n### b. Description of Procedures\n### c. Major Findings (reject or fail to reject H₂)\n### d. Conclusions",
+        "Reference Section": "### 1. End Notes (if in that format of citation)\n### 2. Bibliography or Literature Cited\n### 3. Appendix"
     }
     
     subheadings_prompt = strict_structure.get(current_section, "")
@@ -80,7 +80,8 @@ Suggestions: {', '.join(state.critic_feedback.suggestions)}
                     f"CRITICAL RULES:\n"
                     f"1. Your VERY FIRST line must be exactly: `## {current_section}` (This is used for the UI Table of Contents)\n"
                     f"2. You MUST include these exact sub-headings:\n{subheadings_prompt}\n"
-                    f"3. For non-scientific topics, deduce logical equivalents for 'Hypothesis' or 'Sampling'.\n\n"
+                    f"3. You MUST write comprehensive and detailed paragraphs under EVERY SINGLE sub-heading. DO NOT leave any sub-heading empty (especially the Abstract).\n"
+                    f"4. For non-scientific topics, deduce logical equivalents for 'Hypothesis' or 'Sampling'.\n\n"
                     f"Raw Research:\n{state.raw_research}\n\n"
                     f"Sources Available:\n"
                     f"{chr(10).join([f'[{i+1}] {url}' for i, url in enumerate(state.sources)])}\n"

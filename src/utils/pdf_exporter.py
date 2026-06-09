@@ -8,8 +8,13 @@ def export_to_pdf(markdown_content: str, topic: str) -> str:
     Converts markdown content into a beautifully formatted academic PDF.
     Returns the path to the generated temporary PDF file.
     """
-    # Convert markdown to HTML
-    html_body = markdown.markdown(markdown_content, extensions=['tables', 'fenced_code'])
+    # Ensure a Table of Contents is generated
+    if "[TOC]" not in markdown_content:
+        # We add a page break after the TOC
+        markdown_content = "<pdf:nextpage />\n\n## Table of Contents\n[TOC]\n\n<pdf:nextpage />\n\n" + markdown_content
+
+    # Convert markdown to HTML using the 'toc' extension
+    html_body = markdown.markdown(markdown_content, extensions=['tables', 'fenced_code', 'toc'])
     
     html_template = f"""
     <!DOCTYPE html>
@@ -19,75 +24,131 @@ def export_to_pdf(markdown_content: str, topic: str) -> str:
         <style>
             @page {{
                 size: A4;
-                margin: 2.5cm;
+                margin-left: 2.5cm;
+                margin-right: 2.5cm;
+                margin-top: 3cm;
+                margin-bottom: 3cm;
+                @frame footer_frame {{
+                    -pdf-frame-content: footer_content;
+                    left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+                }}
             }}
             body {{
-                font-family: "Times New Roman", serif;
-                font-size: 12pt;
+                font-family: "Helvetica", "Arial", sans-serif;
+                font-size: 11pt;
                 line-height: 1.6;
-                color: #000000;
+                color: #222222;
                 text-align: justify;
             }}
+            p {{
+                text-align: justify;
+                margin-bottom: 14pt;
+            }}
+            h1, h2, h3, h4 {{
+                font-family: "Helvetica", "Arial", sans-serif;
+                color: #111111;
+                text-align: left;
+            }}
             h1 {{
-                font-size: 24pt;
-                text-align: center;
-                margin-bottom: 24pt;
+                font-size: 22pt;
+                margin-top: 24pt;
+                margin-bottom: 16pt;
                 font-weight: bold;
+                border-bottom: 2px solid #333333;
+                padding-bottom: 6pt;
             }}
             h2 {{
                 font-size: 16pt;
-                margin-top: 18pt;
+                margin-top: 20pt;
                 margin-bottom: 12pt;
-                border-bottom: 1px solid #000;
-                padding-bottom: 4pt;
+                font-weight: bold;
             }}
             h3 {{
-                font-size: 14pt;
-                margin-top: 12pt;
+                font-size: 13pt;
+                margin-top: 14pt;
                 margin-bottom: 8pt;
+                font-weight: bold;
             }}
-            p {{
-                margin-bottom: 12pt;
+            ul, ol {{
+                margin-bottom: 14pt;
+                margin-left: 20pt;
+            }}
+            li {{
+                margin-bottom: 6pt;
+                text-align: justify;
             }}
             table {{
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 12pt;
+                margin-bottom: 16pt;
             }}
             th, td {{
-                border: 1px solid #000;
-                padding: 6pt;
+                border: 1px solid #CCCCCC;
+                padding: 8pt;
                 text-align: left;
             }}
+            th {{
+                background-color: #F0F0F0;
+                font-weight: bold;
+            }}
             pre {{
-                background-color: #f5f5f5;
-                padding: 10pt;
+                background-color: #F8F9FA;
+                padding: 12pt;
                 font-family: "Courier New", monospace;
-                font-size: 10pt;
+                font-size: 9pt;
+                border: 1px solid #E2E8F0;
+                border-radius: 4px;
             }}
             .cover-page {{
                 text-align: center;
-                margin-top: 150pt;
-                page-break-after: always;
+                margin-top: 200pt;
             }}
             .cover-title {{
-                font-size: 28pt;
+                font-size: 32pt;
                 font-weight: bold;
-                margin-bottom: 20pt;
+                margin-bottom: 24pt;
+                color: #0F172A;
             }}
             .cover-subtitle {{
-                font-size: 16pt;
-                color: #555555;
+                font-size: 18pt;
+                color: #475569;
+                margin-bottom: 40pt;
+            }}
+            .cover-date {{
+                font-size: 14pt;
+                color: #64748B;
+            }}
+            .toc {{
+                background-color: #F8FAFC;
+                padding: 20pt;
+                border-radius: 8px;
+                border: 1px solid #E2E8F0;
+            }}
+            .toc ul {{
+                list-style-type: none;
+                margin-left: 0;
+                padding-left: 15pt;
+            }}
+            .toc li {{
+                margin-bottom: 8pt;
+            }}
+            .toc a {{
+                color: #2563EB;
+                text-decoration: none;
             }}
         </style>
     </head>
     <body>
+        <div id="footer_content" style="text-align: right; color: #64748B; font-size: 9pt;">
+            Page <pdf:pagenumber> of <pdf:pagecount>
+        </div>
+        
         <div class="cover-page">
             <div class="cover-title">{topic}</div>
-            <div class="cover-subtitle">Generated by Research Intelligence AI</div>
-            <br><br><br>
-            <p>Comprehensive Academic Report</p>
+            <div class="cover-subtitle">Autonomous AI Research Report</div>
+            <div class="cover-date">Generated by AI Research Workspace</div>
         </div>
+        
         {html_body}
     </body>
     </html>
