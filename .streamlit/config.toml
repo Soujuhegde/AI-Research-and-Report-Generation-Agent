@@ -1,16 +1,7 @@
 [theme]
 base="light"
-# Primary accent color (Rich Indigo)
-primaryColor = "#4F46E5"
-
-# Background color for the main content area (Clean Off-White)
-backgroundColor = "#FAFAFA"
-
-# Background color used for the sidebar and most interactive widgets (Crisp White)
-secondaryBackgroundColor = "#FFFFFF"
-
-# Text color for almost all text (Deep Slate)
+primaryColor = "#2563EB"
+backgroundColor = "#F0F4F8"
+secondaryBackgroundColor = "#F0F4F8"
 textColor = "#0F172A"
-
-# Font family
 font = "sans serif"
