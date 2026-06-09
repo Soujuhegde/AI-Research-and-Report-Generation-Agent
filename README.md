@@ -68,7 +68,3 @@ docker-compose up --build
 - **Backend**: Python, FastAPI / LangGraph (Multi-Agent Framework)
 - **Frontend**: Streamlit / HTML, CSS, JavaScript
 - **Deployment**: Docker, Render
-
-## 📄 License
-
-This project is open-source and available under the MIT License.
