@@ -5,7 +5,6 @@
   [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
   [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com/)
   [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white)](https://streamlit.io/)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 </div>
 
 ---
@@ -106,8 +105,5 @@ This project is completely ready to be deployed to Render for free using the inc
 - **Frontend Dashboard**: Streamlit, Custom HTML/CSS
 - **Cloud Infrastructure**: Docker, Render (Web Services Blueprint)
 
----
-
-## 📄 License
-
-This project is open-source and available under the MIT License.
+## Author 
+Soujanya S P 
