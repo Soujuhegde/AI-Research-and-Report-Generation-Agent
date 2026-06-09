@@ -19,6 +19,8 @@ CRITICAL INSTRUCTIONS FOR THIS SECTION:
 - **CRITICAL FORMATTING:** Use exactly the requested section name as your main `##` heading, with no extra words.
 - **CRITICAL STRUCTURE:** You must use the exact `###` sub-headings requested.
 - **ABSTRACT CONTENT:** If writing an Abstract or Preliminary Section, ensure you explain: why the topic was chosen, the exact problem being faced, and what research is being done.
+- **TABLES & FIGURES:** If writing "Analysis of Data", you MUST generate actual Markdown Tables (e.g., `| Column 1 | Column 2 |`) and placeholder images for figures (e.g., `![Figure 1: Chart Description](https://via.placeholder.com/800x400?text=Figure+1)`). Do not just list them; actually create them!
+- **COMPLETION STRICTNESS:** You MUST ensure you complete your final sentence. Do not ramble endlessly. Wrap up the section cleanly before you run out of your token limit.
 """
 
 def writer_agent(state: AgentState) -> AgentState:
