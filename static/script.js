@@ -126,6 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             });
 
+            if (!response.ok) {
+                let errText = "Unknown error";
+                try {
+                    const errData = await response.json();
+                    errText = errData.detail || JSON.stringify(errData);
+                } catch(e) {
+                    errText = await response.text();
+                }
+                throw new Error(errText);
+            }
+
             const data = await response.json();
             currentJobId = data.job_id;
             
