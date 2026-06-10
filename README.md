@@ -1,99 +1,232 @@
 <div align="center">
-  <h1>🧠 AI Autonomous Research Workspace</h1>
-  <p>An advanced, fully autonomous multi-agent AI system that researches any topic and generates highly structured, fact-checked, and comprehensive academic-style reports.</p>
 
-  [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
-  [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com/)
-  [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white)](https://streamlit.io/)
+# 🚀 AI Research & Report Generation Agent
+
+**A multi-agent AI system that automates deep research and generates comprehensive editorial reports.**
+
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.x-teal?logo=fastapi)](https://fastapi.tiangolo.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.x-red?logo=streamlit)](https://streamlit.io)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker)](https://docker.com)
+[![Stars](https://img.shields.io/github/stars/Soujuhegde/AI-Research-and-Report-Generation-Agent?style=social)](https://github.com/Soujuhegde/AI-Research-and-Report-Generation-Agent)
+
+[Features](#-features) · [Architecture](#-architecture) · [Getting Started](#-getting-started) · [Usage](#-usage) · [Roadmap](#-roadmap)
+
 </div>
+
+---
+
+## 📌 Overview
+
+> The **AI Research & Report Generation Agent** is a multi-agent system that automates the process of researching topics and writing structured, well-cited reports. Built with FastAPI and Streamlit, it leverages advanced LLMs via Sarvam AI and web search capabilities via Tavily. Designed for researchers, writers, and analysts who need high-quality, synthesized information quickly.
+
+---
 
 ## ✨ Features
 
-- **Autonomous Agentic Orchestration**: Seamlessly coordinates **6 specialized AI agents** using LangGraph.
-- **Strict Academic Structure**: Enforces a professional, rigid 6-point report structure (Preliminary, Literature Review, Methodology, Analysis, Conclusions, Sources).
-- **Fact-Checking & Credibility Built-In**: Automatically cross-references claims with raw search data to calculate and assign a trust score.
-- **Modern Document Workspace UI**: Beautiful, responsive Streamlit dashboard featuring:
-  - Sticky, collapsible accordion Table of Contents.
-  - Distinct right-sidebar for metadata, citations, and trust scores.
-  - Real-time agent generation trace logs.
-- **One-Click Deploy**: Production-ready deployment to Render via the included Blueprint.
+- ⚡ **Multi-Agent Orchestration** — Utilizes specialized AI agents (Researcher, Fact-Checker, Writer) to ensure high-quality output.
+- 🧠 **Deep Web Research** — Integrated with Tavily API to fetch the most relevant and up-to-date sources from the web.
+- 🔗 **Dual Frontends** — Choose between a sleek Streamlit dashboard or a custom HTML/JS interface (complete with a loading mini-game!).
+- 📊 **Automated Citations & Trust Scores** — Generates credible reports with source citations and calculated trust scores.
+- 🛡️ **Rate Limiting & Production Ready** — Includes built-in API rate limiting and full Docker support for easy deployment.
+
+---
 
 ## 🏗️ Architecture
 
-The system utilizes a central **LangGraph State Machine** to orchestrate the workflow of 6 specialized agents. They do not talk over a network; instead, they sequentially mutate and pass a strict Pydantic shared state.
+```
+┌─────────────────────────────────────────────────────────┐
+│                      User Interface                      │
+│            (Streamlit Dashboard / Custom Web UI)         │
+└────────────────────────┬────────────────────────────────┘
+                         │
+┌────────────────────────▼────────────────────────────────┐
+│                     FastAPI Backend                      │
+│             (REST Endpoints / Job Polling)               │
+└──────┬──────────────────────────────────────┬───────────┘
+       │                                      │
+┌──────▼───────┐                    ┌─────────▼──────────┐
+│ AI Graph     │                    │ External APIs      │
+│ (Agents)     │                    │ (Sarvam AI /       │
+│              │                    │  Tavily Search)    │
+└───────────────┘                    └────────────────────┘
+```
 
-1. **Planner Agent**: Breaks down the research topic into logical sections and devises targeted search queries.
-2. **Researcher Agent**: Uses Tavily Search to gather raw, factual data and citations from the web.
-3. **Writer Agent**: Iteratively drafts the content, exactly one section at a time, adhering strictly to the required academic format.
-4. **Assembler Agent**: Stitches the individually drafted sections into a cohesive markdown document.
-5. **Critic Agent**: Reviews the full draft for flow, tone, and requirements. If it scores poorly, it sends it back for revision.
-6. **Fact-Checker Agent**: Validates the finalized facts against the original raw research to calculate an overall credibility score.
+**Component Breakdown:**
+
+| Layer | Technology | Role |
+|-------|-----------|------|
+| Frontend | Streamlit / HTML+JS | User interaction & report viewing |
+| Backend | FastAPI | API routing, job management, rate limiting |
+| Orchestration | Python Graph Logic | Agent state management |
+| LLM | Sarvam AI | Reasoning, synthesis & generation |
+| Web Search | Tavily API | Fetching real-time information |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Language:** Python 3.11
+- **Backend:** FastAPI
+- **Frontend:** Streamlit, Vanilla JS/HTML/CSS
+- **LLM:** Sarvam AI
+- **Search Provider:** Tavily
+- **Infrastructure:** Docker, Docker Compose, GitHub Actions (CI/CD)
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Python 3.9+
-- [Sarvam AI](https://sarvam.ai) API Key (or OpenAI/Anthropic depending on your configuration)
-- [Tavily](https://tavily.com/) Search API Key
+- Docker and Docker Compose (Recommended)
+- OR Python 3.11+
+- API keys (see [Environment Setup](#environment-setup))
 
-### Local Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Soujuhegde/AI-Research-and-Report-Generation-Agent.git
-   cd AI-Research-and-Report-Generation-Agent
-   ```
-
-2. **Set up a virtual environment:**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Environment Variables:**
-   Copy the `.env.example` file to `.env` and fill in your API keys.
-   ```bash
-   cp .env.example .env
-   ```
-
-### Running the Application Locally
-
-The application consists of a FastAPI backend (optional for UI) and a Streamlit frontend. For local development, running the frontend is sufficient:
+### Installation (Using Docker - Recommended)
 
 ```bash
-streamlit run frontend/app.py
+# 1. Clone the repository
+git clone https://github.com/Soujuhegde/AI-Research-and-Report-Generation-Agent.git
+cd AI-Research-and-Report-Generation-Agent
+
+# 2. Setup your environment variables (see below)
+
+# 3. Build and run with Docker Compose
+docker compose up --build
 ```
 
-*Alternatively, run the API for headless integration:*
+### Manual Installation
+
 ```bash
-uvicorn api.main:app --reload --port 8000
+# 1. Create a virtual environment
+python -m venv .venv
+source .venv/bin/activate        # Linux/macOS
+.venv\Scripts\activate           # Windows
+
+# 2. Install dependencies
+pip install -r requirements.txt
 ```
 
-## ☁️ Deployment (Render)
+### Environment Setup
 
-This project is completely ready to be deployed to Render for free using the included `render.yaml` Blueprint.
+Create a `.env` file in the root directory by copying the example file:
 
-1. Push your repository to GitHub.
-2. Log into [Render.com](https://render.com).
-3. Click **New +** -> **Blueprint**.
-4. Connect this repository and click **Apply Blueprint**.
-5. Go to the newly created `research-frontend` service dashboard on Render.
-6. Under **Environment**, securely paste your `SARVAM_API_KEY` and `TAVILY_API_KEY`.
-7. Once the build finishes, access your live workspace URL!
+```bash
+cp .env.example .env
+```
 
-## 🛠️ Technologies Used
+Fill in your `.env` file:
+```env
+# Sarvam AI API
+SARVAM_API_KEY=your_sarvam_api_key_here
+SARVAM_API_BASE_URL=https://api.sarvam.ai
 
-- **AI/LLM Framework**: LangGraph, LangChain, Sarvam AI
-- **Web Search**: Tavily Search API
-- **Backend API**: FastAPI, Uvicorn, Python 3.9+
-- **Frontend Dashboard**: Streamlit, Custom HTML/CSS
-- **Cloud Infrastructure**: Docker, Render (Web Services Blueprint)
+# Tavily Web Search
+TAVILY_API_KEY=your_tavily_api_key_here
 
-## Author 
-Soujanya S P 
+APP_ENV=development
+APP_NAME=MultiAgentResearch
+```
+
+> ⚠️ Never commit your `.env` file. It's already in `.gitignore`.
+
+---
+
+## 💻 Usage
+
+### Accessing the Applications (Docker)
+
+Once `docker compose up` is running:
+- **Streamlit Frontend:** `http://localhost:8501`
+- **FastAPI Backend / Swagger UI:** `http://localhost:8000/docs`
+- **Vanilla HTML Frontend:** Serve the `static` folder or access it via the configured static route on the FastAPI server.
+
+### Example API Call
+
+```python
+import requests
+
+response = requests.post("http://localhost:8000/api/research", json={
+    "topic": "Impact of Quantum Computing on Cryptography",
+    "instructions": "Focus on RSA encryption",
+    "max_iterations": 15
+})
+
+print(response.json())
+```
+
+---
+
+## 📂 Project Structure
+
+```
+AI-Research-and-Report-Generation-Agent/
+│
+├── api/                    # FastAPI Backend
+│   ├── main.py             # FastAPI entry point
+│   ├── routes/             # API Endpoints
+│   └── middleware/         # Rate limiting & security
+│
+├── src/                    # Core AI Engine
+│   ├── agents/             # Agent definitions (Researcher, Writer, etc.)
+│   ├── tools/              # Custom tools (Web search)
+│   ├── graph/              # Multi-agent orchestration
+│   └── llm/                # LLM provider connections
+│
+├── frontend/               # Streamlit UI
+│   ├── app.py              
+│   └── components/         
+│
+├── static/                 # Custom HTML/JS UI (with mini-game)
+├── docker/                 # Dockerfiles
+├── .github/workflows/      # CI/CD pipelines
+├── .env.example            # Environment variable template
+├── requirements.txt
+└── docker-compose.yml
+```
+
+---
+
+## 📈 Roadmap
+
+- [x] Multi-agent orchestration setup
+- [x] Integration with Sarvam AI and Tavily
+- [x] FastAPI backend with rate limiting
+- [x] Streamlit and custom web frontends
+- [x] Docker containerization
+- [x] CI/CD pipeline with GitHub Actions
+- [ ] Add more LLM provider options
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+## 👩‍💻 Author
+
+**Soujanya** — AI/ML Engineer
+
+[![GitHub](https://img.shields.io/badge/GitHub-Soujuhegde-black?logo=github)](https://github.com/Soujuhegde)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://linkedin.com/in/your-profile)
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ using FastAPI, Streamlit, and Multi-Agent AI</sub>
+</div>
