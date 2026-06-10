@@ -15,14 +15,14 @@ class Settings(BaseSettings):
     sarvam_api_base_url: str = Field(
         default="https://api.sarvam.ai/v1", env="SARVAM_API_BASE_URL"
     )
-    sarvam_model: str = Field(default="sarvam-30b", env="SARVAM_MODEL")
+    sarvam_model: str = Field(default="sarvam-8b", env="SARVAM_MODEL")
 
     # Tavily
     tavily_api_key: str = Field(..., env="TAVILY_API_KEY")
 
     # Agent Config
-    max_iterations: int = Field(default=10, env="MAX_ITERATIONS")
-    max_search_results: int = Field(default=5, env="MAX_SEARCH_RESULTS")
+    max_iterations: int = Field(default=5, env="MAX_ITERATIONS")
+    max_search_results: int = Field(default=2, env="MAX_SEARCH_RESULTS")
     cost_budget_per_run: float = Field(default=1.0, env="COST_BUDGET_PER_RUN")
 
     # API

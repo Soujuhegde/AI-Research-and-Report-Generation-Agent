@@ -85,7 +85,7 @@ def _execute_research(topic: str, instructions: str):
         final_state = run_research_pipeline(
             topic=topic,
             user_instructions=instructions or None,
-            max_iterations=30,
+            max_iterations=5,
         )
 
         # Clear loading UI for a clean transition

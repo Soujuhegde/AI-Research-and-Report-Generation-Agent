@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     topic: topic,
                     instructions: instructions,
-                    max_iterations: 15
+                    max_iterations: 5
                 })
             });
 
